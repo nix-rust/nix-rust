@@ -74,12 +74,6 @@ zerocopy = ["fs", "uio"]
 [dependencies.libc]
 git = "https://github.com/anacrolix/rust-libc"
 branch = "macos-ofd-fcntl"
-features = ["extra_traits"]
-
-[dev-dependencies.libc]
-git = "https://github.com/anacrolix/rust-libc"
-branch = "macos-ofd-fcntl"
-# const-extern-fn is needed for tests
 features = ["extra_traits", "const-extern-fn"]
 
 [dev-dependencies]
