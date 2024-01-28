@@ -2,6 +2,7 @@
 name        = "nix"
 description = "Rust friendly bindings to *nix APIs"
 edition     = "2021"
+resolver    = "2"
 version     = "0.27.1"
 rust-version = "1.69"
 authors     = ["The nix-rust Project Developers"]
@@ -28,7 +29,6 @@ targets = [
 ]
 
 [dependencies]
-libc = { git = "https://github.com/rust-lang/libc", rev = "2f93bfb7678e18a9fc5373dec49384bd23f601c3", features = ["extra_traits"] }
 bitflags = "2.3.1"
 cfg-if = "1.0"
 pin-utils = { version = "0.1.0", optional = true }
@@ -70,6 +70,17 @@ ucontext = ["signal"]
 uio = []
 user = ["feature"]
 zerocopy = ["fs", "uio"]
+
+[dependencies.libc]
+git = "https://github.com/anacrolix/rust-libc"
+branch = "macos-ofd-fcntl"
+features = ["extra_traits"]
+
+[dev-dependencies.libc]
+git = "https://github.com/anacrolix/rust-libc"
+branch = "macos-ofd-fcntl"
+# const-extern-fn is needed for tests
+features = ["extra_traits", "const-extern-fn"]
 
 [dev-dependencies]
 assert-impl = "0.1"
