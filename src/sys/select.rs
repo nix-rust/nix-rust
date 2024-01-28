@@ -3,7 +3,6 @@ use crate::errno::Errno;
 use crate::sys::time::{TimeSpec, TimeVal};
 use crate::Result;
 use libc::{self, c_int};
-use std::convert::TryFrom;
 use std::iter::FusedIterator;
 use std::mem;
 use std::ops::Range;
@@ -21,10 +20,7 @@ pub struct FdSet<'fd> {
 }
 
 fn assert_fd_valid(fd: RawFd) {
-    assert!(
-        usize::try_from(fd).map_or(false, |fd| fd < FD_SETSIZE),
-        "fd must be in the range 0..FD_SETSIZE",
-    );
+    assert!(fd < FD_SETSIZE, "fd must be in the range 0..FD_SETSIZE",);
 }
 
 impl<'fd> FdSet<'fd> {
@@ -110,7 +106,7 @@ impl<'fd> FdSet<'fd> {
     pub fn fds(&self, highest: Option<RawFd>) -> Fds {
         Fds {
             set: self,
-            range: 0..highest.map(|h| h as usize + 1).unwrap_or(FD_SETSIZE),
+            range: 0..highest.map(|h| h + 1).unwrap_or(FD_SETSIZE) as usize,
         }
     }
 }
