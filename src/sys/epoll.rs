@@ -6,7 +6,7 @@ use std::mem;
 use std::os::unix::io::{AsFd, AsRawFd, FromRawFd, OwnedFd, RawFd};
 
 libc_bitflags!(
-    pub struct EpollFlags: c_int {
+    pub struct EpollFlags: u32 {
         EPOLLIN;
         EPOLLPRI;
         EPOLLOUT;
@@ -62,7 +62,7 @@ impl EpollEvent {
     }
 
     pub fn events(&self) -> EpollFlags {
-        EpollFlags::from_bits(self.event.events as c_int).unwrap()
+        EpollFlags::from_bits(self.event.events as u32).unwrap()
     }
 
     pub fn data(&self) -> u64 {
